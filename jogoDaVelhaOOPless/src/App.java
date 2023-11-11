@@ -148,6 +148,9 @@ public class App {
 
     public static boolean checarOcupados(int jogada, ArrayList<Integer> ocupados) {
 
+        // Passa por cada elemento do array ocupados, que é incrementado sempre
+        // que uma jogada é feita, checando se a jogada é igual alguma
+        // das posições ja ocupadas por qualquer jogador
         for(int ocupado : ocupados) {
             if(ocupado == jogada) {
                 return true;
@@ -160,26 +163,50 @@ public class App {
         
         //vitoria vertical
         if(tabuleiro[0] == tabuleiro[3] && tabuleiro[3] == tabuleiro[6]) {
+            // X M M
+            // X M M
+            // X M M
             return true;
         } else if(tabuleiro[1] == tabuleiro[4] && tabuleiro[4] == tabuleiro[7]) {
+            // M X M
+            // M X M
+            // M X M           
             return true;
         } else if(tabuleiro[2] == tabuleiro[5] && tabuleiro[5] == tabuleiro[8]) {
+            // M M X
+            // M M X
+            // M M X
             return true;
         }
         
-        //vitoria horizontal 
+        //vitoria horizontal
         if(tabuleiro[0] == tabuleiro[1] && tabuleiro[1] == tabuleiro[2]) {
+            // X X X
+            // M M M
+            // M M M
             return true;
         } else if(tabuleiro[3] == tabuleiro[4] && tabuleiro[4] == tabuleiro[5]) {
+            // M M M
+            // X X X
+            // M M M
             return true;
         } else if(tabuleiro[6] == tabuleiro[7] && tabuleiro[7] == tabuleiro[8]) {
+            // M M M
+            // M M M
+            // X X X
             return true;
         }
         
         //vitoria diagonal 
         if(tabuleiro[0] == tabuleiro[4] && tabuleiro[4] == tabuleiro[8]) {
+            // X M M
+            // M X M
+            // M M X
             return true;
         } else if(tabuleiro[2] == tabuleiro[4] && tabuleiro[4] == tabuleiro[6]) {
+            // M M X
+            // M X M
+            // X M M
             return true;
         }
 
