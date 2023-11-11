@@ -27,7 +27,6 @@ public class App {
                     mostrarTabuleiro(tabuleiro);
                     vitoria = checarVitoria(tabuleiro);
                     if(vitoria == true) {
-                        System.out.println();
                         System.out.println("O jogadores com os X's ganhou!");
                         mostrarTabuleiro(tabuleiro);
                         break;
@@ -38,7 +37,6 @@ public class App {
                     mostrarTabuleiro(tabuleiro);
                     vitoria = checarVitoria(tabuleiro);
                     if(vitoria == true) {
-                        System.out.println();
                         System.out.println("O jogadores com os O's ganhou!");
                         mostrarTabuleiro(tabuleiro);
                         break;
@@ -79,7 +77,6 @@ public class App {
         System.out.println();
         
         while(!jogadaValida) {
-                
             System.out.println("Escolha a posição que deseja jogar: ");
                 
             escolha = scan.nextLine();
@@ -128,23 +125,22 @@ public class App {
                     Thread.sleep(2500);
                     System.out.println();
                     mostrarTabuleiro(tabuleiro);
-                    jogada = 0;
+                    jogada = 9;
                 break;
             }
-
-            if(checarOcupados(jogada, ocupados) && ocupados.size() > 0) {
-                System.out.println("Essa posição ja está ocupada!");
-                Thread.sleep(2500);
-                mostrarTabuleiro(tabuleiro);
-                System.out.println();
-                jogadaValida = false;
-                
-            } else {
-                tabuleiro[jogada] = jogador;
-                ocupados.add(jogada);
+            if (jogada <= 8) {
+                if(checarOcupados(jogada, ocupados) && ocupados.size() > 0) {
+                    System.out.println("Essa posição ja está ocupada!");
+                    Thread.sleep(2500);
+                    mostrarTabuleiro(tabuleiro);
+                    System.out.println();
+                    jogadaValida = false;
+                    
+                } else {
+                    tabuleiro[jogada] = jogador;
+                    ocupados.add(jogada);
+                }
             }
-
-            
         }
         return jogadaValida;
             
