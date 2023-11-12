@@ -29,18 +29,20 @@ public class App {
 
         while(!modoDeJogoValido) {
             System.out.println("____________________________________________________");
-            out.println("Deseja jogar contra o computador[1], ou um amigo?[2]");
-            int modoDeJogo = scan.nextInt();
-            scan.nextLine();
-            if(modoDeJogo == 1) {
+            out.println("Deseja jogar contra o [COMPUTADOR], ou um [AMIGO]?");
+            String modoDeJogo = scan.nextLine();
+            modoDeJogo = modoDeJogo.toUpperCase();
+            out.println();
+            if(modoDeJogo.equals("COMPUTADOR")) {
 
                 jogoComputador(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
                 break;
             }
-            else if(modoDeJogo == 2) {
+            else if(modoDeJogo.equals("AMIGO")) {
 
                 jogoMultiplayer(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
                 break;
+                
             } else {
                 System.out.println("Modo de jogo invalido!");
                 Thread.sleep(2000);
