@@ -1,13 +1,19 @@
+import static java.lang.System.out;
+
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class App {
     
   public static Scanner scan = new Scanner(System.in);
-    
-  public static void main(String[] args) {
+  public static Random random = new Random();
+  
+  public static void main(String[] args) throws InterruptedException {
 
+        boolean modoDeJogoValido = false;
         boolean vitoria = false;
+        boolean jogador1Ganhou = false;
         String escolha = "";
         int jogada = 0;
         final char jogador1 = 'X';
@@ -16,44 +22,116 @@ public class App {
     	    				'D', 'E', 'F',
                             'G', 'H', 'I'};
         ArrayList<Integer> ocupados = new ArrayList<Integer>();
-        System.out.println("X começa!");
-        
-        mostrarTabuleiro(tabuleiro);
-        
-        try{
-            while(!vitoria) {
-                
-                if(fazerJogada(escolha, jogada, jogador1, tabuleiro, ocupados)) {
-                    mostrarTabuleiro(tabuleiro);
-                    vitoria = checarVitoria(tabuleiro);
-                    if(vitoria == true) {
-                        System.out.println("O jogadores com os X's ganhou!");
-                        mostrarTabuleiro(tabuleiro);
-                        break;
-                    }
-                }
 
-                if(fazerJogada(escolha, jogada, jogador2, tabuleiro, ocupados)) {
-                    mostrarTabuleiro(tabuleiro);
-                    vitoria = checarVitoria(tabuleiro);
-                    if(vitoria == true) {
-                        System.out.println("O jogadores com os O's ganhou!");
-                        mostrarTabuleiro(tabuleiro);
-                        break;
-                    }
-                }
+
+        System.out.println("Bem vindo ao Jogo da Velha!");
+        Thread.sleep(2000);
+
+        while(!modoDeJogoValido) {
+            System.out.println("____________________________________________________");
+            out.println("Deseja jogar contra o computador[1], ou um amigo?[2]");
+            int modoDeJogo = scan.nextInt();
+            scan.nextLine();
+            if(modoDeJogo == 1) {
+
+                jogoComputador(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
+                break;
             }
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        if(!vitoria) {
-            System.out.println("Ih, deu velha");
-        }
+            else if(modoDeJogo == 2) {
 
+                jogoMultiplayer(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
+                break;
+            } else {
+                System.out.println("Modo de jogo invalido!");
+                Thread.sleep(2000);
+            }
+
+        }
     }
-    
-    public static void mostrarTabuleiro(char[] tabuleiro) {
+
+    private static void jogoMultiplayer(boolean modoDeJogoValido, boolean vitoria, boolean jogador1Ganhou, String escolha, int jogada, char jogador1, char jogador2, char[] tabuleiro, ArrayList<Integer> ocupados) throws InterruptedException{
+
+        modoDeJogoValido = true;
+                System.out.println("X começa!");
+
+                mostrarTabuleiro(tabuleiro);
+                Thread.sleep(2000);
+
+                try{
+                    while(!vitoria) {
+                        
+                        if(fazerJogada(escolha, jogada, jogador1, tabuleiro, ocupados)) {
+                            mostrarTabuleiro(tabuleiro);
+                            vitoria = checarVitoria(tabuleiro);
+                            jogador1Ganhou = (vitoria ? true : false);
+                            if(!vitoria) {
+                                if(fazerJogada(escolha, jogada, jogador2, tabuleiro, ocupados)) {
+                                    mostrarTabuleiro(tabuleiro);
+                                    vitoria = checarVitoria(tabuleiro);
+                                }
+                            }
+                        }
+
+                        if(vitoria == true) {
+                                System.out.println();
+                                out.println("O jogadores com os " + (jogador1Ganhou ? "X's" : "O's") + " ganhou!");
+                                break;
+                        }
+                    }
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                
+                if(!vitoria) {
+                    System.out.println("Ih, deu velha!");
+                }
+}
+
+    private static void jogoComputador(boolean modoDeJogoValido, boolean vitoria, boolean jogador1Ganhou, String escolha, int jogada, char jogador1, char jogador2, char[] tabuleiro, ArrayList<Integer> ocupados) throws InterruptedException {
+
+        modoDeJogoValido = true;
+                System.out.println("Você começa!");
+
+                mostrarTabuleiro(tabuleiro);
+                Thread.sleep(2000);
+
+                try{
+                    while(!vitoria) {
+                        
+                        if(fazerJogada(escolha, jogada, jogador1, tabuleiro, ocupados)) {
+                            mostrarTabuleiro(tabuleiro);
+                            vitoria = checarVitoria(tabuleiro);
+                            jogador1Ganhou = (vitoria ? true : false);
+                            if(!vitoria) {
+                                fazerJogadaComputador(jogada, jogador2, tabuleiro, ocupados);
+                                mostrarTabuleiro(tabuleiro);
+                                out.println();
+                                Thread.sleep(500);
+                                out.println("Sua vez!"); 
+                                Thread.sleep(500);
+                                vitoria = checarVitoria(tabuleiro);    
+                            }
+                        }
+
+                        if(vitoria == true) {
+                                Thread.sleep(1000);
+                                System.out.println();
+                                out.print(jogador1Ganhou ? "Você ganhou!" : "O computador ganhou!");
+                                Thread.sleep(1000);
+                                out.println();
+                                break;
+                        }
+                    }
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                
+                if(!vitoria) {
+                    System.out.println("Ih, deu velha!");
+                }
+}
+
+    private static void mostrarTabuleiro(char[] tabuleiro) {
         
         int counter = 0;
        
@@ -70,7 +148,7 @@ public class App {
         }
     }
 
-    public static boolean fazerJogada(String escolha, int jogada, char jogador, char[] tabuleiro, ArrayList<Integer> ocupados) throws InterruptedException{
+    private static boolean fazerJogada(String escolha, int jogada, char jogador, char[] tabuleiro, ArrayList<Integer> ocupados) throws InterruptedException{
         
         boolean jogadaValida = false;
     
@@ -146,7 +224,38 @@ public class App {
             
     }
 
-    public static boolean checarOcupados(int jogada, ArrayList<Integer> ocupados) {
+    private static void fazerJogadaComputador(int jogada, char jogador2, char[] tabuleiro,
+        ArrayList<Integer> ocupados) throws InterruptedException{
+            
+            boolean jogadaValida = false;
+            
+            while(!jogadaValida) {
+                jogada = random.nextInt(8);
+                if(!checarOcupados(jogada, ocupados) && ocupados.size() > 0) {
+                    tabuleiro[jogada] = 'O';
+                    ocupados.add(jogada);
+                    jogadaValida = true;
+                    out.println();
+                    Thread.sleep(2000);
+                    out.println("Minha vez!");
+                    Thread.sleep(700);
+                    out.print("Eu vou jogar.");
+                    Thread.sleep(700);
+                    out.print(".");
+                    Thread.sleep(700);
+                    out.print(".");
+                    Thread.sleep(700);
+                    out.print(".");
+                    Thread.sleep(700);
+                    out.print(" Aqui!");
+                    Thread.sleep(1000);
+                    out.println();
+                }
+            }
+            
+    }
+
+    private static boolean checarOcupados(int jogada, ArrayList<Integer> ocupados) {
 
         // Passa por cada elemento do array ocupados, que é incrementado sempre
         // que uma jogada é feita, checando se a jogada é igual alguma
@@ -159,7 +268,7 @@ public class App {
         return false;
     }
     
-    public static boolean checarVitoria(char tabuleiro[]){
+    private static boolean checarVitoria(char tabuleiro[]){
         
         //vitoria vertical
         if(tabuleiro[0] == tabuleiro[3] && tabuleiro[3] == tabuleiro[6]) {
