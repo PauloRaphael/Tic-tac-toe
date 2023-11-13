@@ -36,12 +36,32 @@ public class App {
             if(modoDeJogo.equals("COMPUTADOR")) {
 
                 jogoComputador(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
-                break;
+                System.out.print("Continuar o jogando?(Sim/Nao): ");
+                String continuar = scan.nextLine();
+                continuar = continuar.toUpperCase();
+                if(continuar.equals("SIM")) {
+                    tabuleiro = new char[] {'A', 'B', 'C',
+    	    				                'D', 'E', 'F',
+                                            'G', 'H', 'I'};
+                    ocupados.clear();
+                } else {
+                    break;
+                }
             }
             else if(modoDeJogo.equals("AMIGO")) {
-
+                
                 jogoMultiplayer(modoDeJogoValido, vitoria, jogador1Ganhou, escolha, jogada, jogador1, jogador2, tabuleiro, ocupados);
-                break;
+                System.out.print("Continuar o jogando?(Sim/Nao): ");
+                String continuar = scan.nextLine();
+                continuar = continuar.toUpperCase();
+                if(continuar.equals("SIM")) {
+                    tabuleiro = new char[] {'A', 'B', 'C',
+    	    				                'D', 'E', 'F',
+                                            'G', 'H', 'I'};
+                    ocupados.clear();
+                } else {
+                    break;
+                }
                 
             } else {
                 System.out.println("Modo de jogo invalido!");
@@ -77,6 +97,8 @@ public class App {
                         if(vitoria == true) {
                                 System.out.println();
                                 out.println("O jogadores com os " + (jogador1Ganhou ? "X's" : "O's") + " ganhou!");
+                                Thread.sleep(1000);
+                                out.println();
                                 break;
                         }
                     }
@@ -109,20 +131,20 @@ public class App {
                                 mostrarTabuleiro(tabuleiro);
                                 out.println();
                                 Thread.sleep(500);
-                                out.println("Sua vez!"); 
-                                Thread.sleep(500);
-                                vitoria = checarVitoria(tabuleiro);    
+                                vitoria = checarVitoria(tabuleiro);  
                             }
                         }
 
                         if(vitoria == true) {
                                 Thread.sleep(1000);
                                 System.out.println();
-                                out.print(jogador1Ganhou ? "Você ganhou!" : "O computador ganhou!");
+                                out.print(jogador1Ganhou ? "Você ganhou!" : "Eu  ganhei HAHAHAHAHAHA");
                                 Thread.sleep(1000);
                                 out.println();
                                 break;
                         }
+                        Thread.sleep(500);
+                        out.println("Sua vez!");  
                     }
                 } catch(Exception e) {
                     System.out.println(e.getMessage());
